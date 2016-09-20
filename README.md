@@ -8,7 +8,7 @@ Market: SF
 
 By the end of this lab **you will have built** a JSON API with a full set of RESTful endpoints:
 
-| RESTful Route             | Description                         | Controller |
+| RESTful Route             | Description                         | controller#action |
 | :------------------------ | :---------------------------------- | :--------- |
 | `POST`   `/todos`         | Create a new todo record | create |
 | `GET`    `/todos`         | Fetch a list of todos     | index |
