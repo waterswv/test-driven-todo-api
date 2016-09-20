@@ -207,8 +207,8 @@ describe('Todos API', function() {
     var actual_response = {};
     var Todo = new TodoModel;
     var new_todo = {
-      task: 'Create random task name #' + Math.random,
-      description: 'Pick a random number, e.g. ' + Math.random
+      task: 'Create random task name #' + Math.random(),
+      description: 'Pick a random number, e.g. ' + Math.random()
     };
 
     before(function(done){
@@ -315,8 +315,8 @@ describe('Todos API', function() {
     var actual_response = {};
     var Todo = new TodoModel;
     var updated_todo = {
-      task: 'Return order #' + Math.random,
-      description: 'Shipping label #' + Math.random
+      task: 'Return order #' + Math.random(),
+      description: 'Shipping label #' + Math.random()
     };
 
     before(function(done){
@@ -370,7 +370,7 @@ describe('Todos API', function() {
     var search_word = _.sample(["surf", "sperlunk", "ski"])
     var updated_todo = {
       task: search_word,
-      description: 'dude... ' + Math.random
+      description: 'dude... ' + Math.random()
     };
 
     before(function(done){
