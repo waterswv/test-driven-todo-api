@@ -1,4 +1,10 @@
-# <img src="https://cloud.githubusercontent.com/assets/7833470/10899314/63829980-8188-11e5-8cdd-4ded5bcb6e36.png" height="60"> Todo App - Test Driven RESTful JSON API
+<!--
+Market: SF
+-->
+
+![](https://ga-dash.s3.amazonaws.com/production/assets/logo-9f88ae6c9c3871690e33280fcf557f33.png)
+
+# Todo App - Test Driven RESTful JSON API
 
 By the end of this lab **you will have built** a JSON API with a full set of RESTful endpoints:
 
