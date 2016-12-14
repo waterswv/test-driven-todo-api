@@ -107,7 +107,7 @@ describe('Todos API', function() {
         .fail(done);
     });
 
-    it('should respond with a JSON object', function (done) {
+    it('should respond with a javascript object translated into JSON format', function (done) {
       fetcher
         .get(base_url + '/api/todos')
         .then(function(response) {
@@ -116,7 +116,7 @@ describe('Todos API', function() {
         .fail(done);
     });
 
-    it('the JSON should have a key "todos" that points to a list (value) of todos', function (done) {
+    it('the JSON object should have one key-value pair. The key should be called "todos." That key should hold an array of todos', function (done) {
       fetcher
         .get(base_url + '/api/todos')
         .then(function (response) {
