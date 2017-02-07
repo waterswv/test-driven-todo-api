@@ -40,7 +40,7 @@ app.get('/', function homepage(req, res) {
 // get all todos
 app.get('/api/todos', function index(req, res) {
   // send all todos as JSON response
-  res.json({ todos: todos });
+  res.json({ data: todos });
 });
 
 // create new todo
