@@ -35,17 +35,17 @@ var fetcher = (function(request, q) {
         return deferred.reject(new Error(error));
       }
 
-      if ( response.body.match("Error") ) {
-        // Naive check of whether we got an error message.
-        var errMsg = response.body;
-        var cleanMsg = errMsg.split("<br> &nbsp; &nbsp;").join("\n\r");
-        deferred.reject(new Error(cleanMsg));
-      }
-
       try {
         response.json = JSON.parse(response.body);
       } catch (err) {
-        // DO NOTHING
+        if ( response.body.match("Error") ) {
+          // Naive check of whether we got an error message.
+          var errMsg = response.body;
+          var cleanMsg = errMsg.split("<br> &nbsp; &nbsp;").join("\n\r");
+          deferred.reject(new Error(cleanMsg));
+        } else {
+          // DO NOTHING
+        }
       }
 
       deferred.resolve(response);
