@@ -116,7 +116,7 @@ describe('Todos API', function() {
         .fail(done);
     });
 
-    it('the JSON object should have one key-value pair. The key should be called "todos." That key should hold an array of todos', function (done) {
+    it('the JSON object should have one key-value pair. The key should be called "todos." The value should the hardcoded array of todos', function (done) {
       fetcher
         .get(base_url + '/api/todos')
         .then(function (response) {
