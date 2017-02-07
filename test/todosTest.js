@@ -44,7 +44,9 @@ var fetcher = (function(request, q) {
 
       try {
         response.json = JSON.parse(response.body);
-      } finally {}
+      } catch (err) {
+        // DO NOTHING
+      }
 
       deferred.resolve(response);
     });
