@@ -37,7 +37,16 @@ var fetcher = (function(request, q) {
 
       try {
         response.json = JSON.parse(response.body);
-      } finally {}
+      } catch (err) {
+        if ( response.body.match("Error") ) {
+          // Naive check of whether we got an error message.
+          var errMsg = response.body;
+          var cleanMsg = errMsg.split("<br> &nbsp; &nbsp;").join("\n\r");
+          deferred.reject(new Error(cleanMsg));
+        } else {
+          // DO NOTHING
+        }
+      }
 
       deferred.resolve(response);
     });
@@ -61,7 +70,7 @@ TodoModel.prototype.loadAll = function (){
   fetcher
     .get(base_url + '/api/todos')
     .then(function(response){
-      var all_todos = response.json.todos;
+      var all_todos = response.json.data;
       self.all = all_todos
       self.last = _.last(all_todos)
       self.random = _.sample(all_todos)
@@ -116,12 +125,14 @@ describe('Todos API', function() {
         .fail(done);
     });
 
-    it('the JSON object should have one key-value pair. The key should be called "todos." That key should hold an array of todos', function (done) {
+    
+    it('the JSON object should have one key-value pair. The key should be called "data". The value should be the hardcoded array of todos', function (done) {
+
       fetcher
         .get(base_url + '/api/todos')
         .then(function (response) {
           expect(response.json)
-            .to.have.property("todos")
+            .to.have.property("data")
             .and.be.an("array")
               .and.have.property(0)
               .and.have.all.keys(["task", "description", "_id"]);
@@ -135,7 +146,7 @@ describe('Todos API', function() {
       fetcher
         .get(base_url + '/api/todos')
         .then(function (response) {
-          var first_todo = response.json.todos[0]
+          var first_todo = response.json.data[0]
 
           expect(first_todo)
             .to.have.property("task")
@@ -298,7 +309,7 @@ describe('Todos API', function() {
       fetcher
         .get(base_url + '/api/todos')
         .then(function(response){
-          var current_todos = response.json.todos;
+          var current_todos = response.json.data;
           expect(current_todos)
             .to.have.length(Todo.all.length - 1)
             .and.not.deep.include(Todo.random);
@@ -392,7 +403,7 @@ describe('Todos API', function() {
         .get(base_url + '/api/todos/search?q=' + search_word)
         .then(function(response){
           expect(response.json)
-            .to.have.property("todos")
+            .to.have.property("data")
             .and.be.an("array")
             .and.deep.include(Todo.original_todo);
           done();
