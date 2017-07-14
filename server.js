@@ -1,10 +1,12 @@
 // require express and other modules
 var express = require('express'),
-    app = express(),
-    bodyParser = require('body-parser');
+  app = express(),
+  bodyParser = require('body-parser');
 
 // configure bodyParser (for receiving form data)
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 // serve static files from public folder
 app.use(express.static(__dirname + '/public'));
@@ -14,10 +16,21 @@ app.use(express.static(__dirname + '/public'));
  ************/
 
 // our database is an array for now with some hardcoded values
-var todos = [
-  { _id: 7, task: 'Laundry', description: 'Wash clothes' },
-  { _id: 27, task: 'Grocery Shopping', description: 'Buy dinner for this week' },
-  { _id: 44, task: 'Homework', description: 'Make this app super awesome!' }
+var todos = [{
+    _id: 7,
+    task: 'Laundry',
+    description: 'Wash clothes'
+  },
+  {
+    _id: 27,
+    task: 'Grocery Shopping',
+    description: 'Buy dinner for this week'
+  },
+  {
+    _id: 44,
+    task: 'Homework',
+    description: 'Make this app super awesome!'
+  }
 ];
 
 /**********
@@ -50,10 +63,12 @@ app.get('/api/todos/search', function search(req, res) {
 });
 
 app.get('/api/todos', function index(req, res) {
-  /* This endpoint responds with all of the todos
-   */
-   var myData = {data:todos};
-   res.json(myData);
+      /* This endpoint responds with all of the todos
+       */
+      var myData = {
+        data: todos
+      };
+      res.json(myData);
 });
 
 app.post('/api/todos', function create(req, res) {
@@ -63,24 +78,26 @@ app.post('/api/todos', function create(req, res) {
 });
 
 app.get('/api/todos/:id', function show(req, res) {
-  /* This endpoint will return a single todo with the
-   * id specified in the route parameter (:id)
-   */
-   var toDoId = parseInt(req.params.id);
-   console.log("I've assigned my first toDoId to "+toDoId);
+      /* This endpoint will return a single todo with the
+       * id specified in the route parameter (:id)
+       */
+      var toDoId = parseInt(req.params.id);
+      console.log("I've assigned my first toDoId to " + toDoId);
 
-   function isId (item) {
-     if (toDoId === item._id){
-       console.log("this is the item.id in isId function "+item.id);
-       console.log("This is the toDoId inside the isId function "+toDoId);
-       return true;
-     }
-   }
-   var myData = todos.filter(isId);
-   console.log("This is myData at the end "+myData);
+      //this is my callback function that will be used in conjunction with the .filter() method
+      function isId(item) {
+        if (toDoId === item._id) {
+          console.log("this is the item.id in isId function " + item._id);
+          return true;
+        }
+      }
 
+      // this is creating my new array using the .filter method which includes a callback function
+      var myData = todos.filter(isId);
+      console.log("This is myData at the end " + myData[0]);
 
-   res.json(myData);
+      // this is the response data sent back
+      res.json(myData[0]);
 });
 
 app.put('/api/todos/:id', function update(req, res) {
