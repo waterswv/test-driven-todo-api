@@ -75,6 +75,29 @@ app.post('/api/todos', function create(req, res) {
   /* This endpoint will add a todo to our "database"
    * and respond with the newly created todo.
    */
+
+   // Pulls the form inputs from the form and assigns to variables
+   var myTask = req.body.task;
+   console.log("The Task is"+myTask);
+   var myDesc = req.body.description;
+   console.log("The Task is"+myDesc);
+
+    // finds the last item in the list array, pulls the ID & increments it by 1 for new item ID
+    var myIndex = todos.length-1;
+    var myId = parseInt(todos[myIndex]._id);
+    var newId = myId + 1;
+    console.log(newId);
+
+    // place new to do item in object
+    var myToDo = {_id: newId, task: myTask, description: myDesc};
+    console.log(myToDo);
+
+    //pushes new object into array
+    todos.push(myToDo);
+
+    //returns new object to response
+    res.json(myToDo);
+
 });
 
 app.get('/api/todos/:id', function show(req, res) {
@@ -98,7 +121,7 @@ app.get('/api/todos/:id', function show(req, res) {
 
       // this is the response data sent back
       res.json(myData[0]);
-});
+}); // closing the endpoint
 
 app.put('/api/todos/:id', function update(req, res) {
   /* This endpoint will update a single todo with the
