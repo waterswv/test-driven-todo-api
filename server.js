@@ -52,6 +52,8 @@ app.get('/api/todos/search', function search(req, res) {
 app.get('/api/todos', function index(req, res) {
   /* This endpoint responds with all of the todos
    */
+   var myData = {data:todos};
+   res.json(myData);
 });
 
 app.post('/api/todos', function create(req, res) {
@@ -64,6 +66,21 @@ app.get('/api/todos/:id', function show(req, res) {
   /* This endpoint will return a single todo with the
    * id specified in the route parameter (:id)
    */
+   var toDoId = parseInt(req.params.id);
+   console.log("I've assigned my first toDoId to "+toDoId);
+
+   function isId (item) {
+     if (toDoId === item._id){
+       console.log("this is the item.id in isId function "+item.id);
+       console.log("This is the toDoId inside the isId function "+toDoId);
+       return true;
+     }
+   }
+   var myData = todos.filter(isId);
+   console.log("This is myData at the end "+myData);
+
+
+   res.json(myData);
 });
 
 app.put('/api/todos/:id', function update(req, res) {
