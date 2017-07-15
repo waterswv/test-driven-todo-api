@@ -135,6 +135,22 @@ app.delete('/api/todos/:id', function destroy(req, res) {
    * id specified in the route parameter (:id) and respond
    * with success.
    */
+
+   var toDoId = req.params.id;
+   console.log("I've assigned my first toDoId to " + toDoId);
+
+  //  .map finds all of the _ids in the function ... then we use .indexOf() to..
+  // get the index of the matching _id which is assingned to myIndex.
+   var myIndex = todos.map(function(e) { return e._id; }).indexOf(toDoId);
+   console.log("My index is "+myIndex);
+
+   // use .splice() to cut the object in the myIndex position.
+   myData = todos.splice(myIndex, 1);
+   console.log("This is myData at the end " + myData[0]);
+
+   // this is the response data sent back which is the object that was cut in this scenario.
+   res.json(myData[0]);
+
 });
 
 /**********
