@@ -129,13 +129,27 @@ app.put('/api/todos/:id', function update(req, res) {
    * with the newly updated todo.
    */
 
-   var toDoId = req.params.id;
-   console.log("I've assigned my first toDoId to " + toDoId);
+   // This gets my id and converts it into a number.
+   var toDoId = parseInt(req.params.id);
+   console.log("This is my ID converted to a number " + toDoId);
 
-  //  .map finds all of the _ids in the function ... then we use .indexOf() to..
-  // get the index of the matching _id which is assingned to myIndex.
+   // This pulls the form inputs from the form and assigns to variables
+   var myTask = req.body.task;
+   console.log("The Task new task is " + myTask);
+   var myDesc = req.body.description;
+   console.log("The new description is " + myDesc);
+
+   //  .map finds all of the _ids in the function ... then we use .indexOf() to..
+   // get the index of the matching _id which is assingned to myIndex.
    var myIndex = todos.map(function(e) { return e._id; }).indexOf(toDoId);
+   console.log("The index position to update the data is " + myIndex);
 
+    //updates changed data into seleced object inside array
+    todos[myIndex].description = myDesc;
+    todos[myIndex].task = myTask;
+
+    //returns changed object to response
+    res.json(todos[myIndex]);
 
 });
 
