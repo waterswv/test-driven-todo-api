@@ -1,7 +1,8 @@
 // require express and other modules
-var express = require('express'),
+let express = require('express'),
   app = express(),
-  bodyParser = require('body-parser');
+  bodyParser = require('body-parser'),
+  db = require('./models');
 
 // configure bodyParser (for receiving form data)
 app.use(bodyParser.urlencoded({
@@ -71,7 +72,7 @@ app.get('/api/todos/search', function search(req, res) {
     return (todo.task.toLowerCase().includes(theSearch))});
   console.log(myIndexes);
 
-  // this returns the array with data added as property to the object. 
+  // this returns the array with data added as property to the object.
   res.json({data:myIndexes});
   console.log("My array is " + myIndexes);
 
@@ -93,30 +94,38 @@ app.post('/api/todos', function create(req, res) {
    */
 
   // Pulls the form inputs from the form and assigns to variables
-  var myTask = req.body.task;
-  console.log("The Task is" + myTask);
-  var myDesc = req.body.description;
-  console.log("The Task is" + myDesc);
+  // var myTask = req.body.task;
+  // console.log("The Task is" + myTask);
+  // var myDesc = req.body.description;
+  // console.log("The Task is" + myDesc);
+  //
+  // // finds the last item in the list array, pulls the ID & increments it by 1 for new item ID
+  // var myIndex = todos.length - 1;
+  // var myId = parseInt(todos[myIndex]._id);
+  // var newId = myId + 1;
+  // console.log(newId);
+  //
+  // // place new to do item in object
+  // var myToDo = {
+  //   _id: newId,
+  //   task: myTask,
+  //   description: myDesc
+  // };
+  // console.log(myToDo);
+  //
+  // //pushes new object into array
+  // todos.push(myToDo);
+  //
+  // //returns new object to response
+  // res.json(myToDo);
 
-  // finds the last item in the list array, pulls the ID & increments it by 1 for new item ID
-  var myIndex = todos.length - 1;
-  var myId = parseInt(todos[myIndex]._id);
-  var newId = myId + 1;
-  console.log(newId);
-
-  // place new to do item in object
-  var myToDo = {
-    _id: newId,
-    task: myTask,
-    description: myDesc
-  };
-  console.log(myToDo);
-
-  //pushes new object into array
-  todos.push(myToDo);
-
-  //returns new object to response
-  res.json(myToDo);
+  // creates instance of Todo locally and saves in the database.
+  let newTodo = req.body;
+  let todo = new db.Todo(newTodo);
+  todo.save(function (error, savedTodo){
+    console.log(error);
+    res.json(savedTodo);
+  });
 
 });
 
